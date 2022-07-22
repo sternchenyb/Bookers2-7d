@@ -1,0 +1,40 @@
+<% if @book.errors.any? %>
+ <%= @book.errors.count %> errors detected.
+ <ul>
+ <% @book.errors.full_messages.each do |message| %>
+ <li><%= message %></li>
+ <% end %>
+ </ul>
+<% end %>
+
+ 
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-md-3">
+      
+     <%= render 'users/user', user: @user %>
+     <%= render 'newbook', book: @book_new %>
+     </div>
+
+<div class="col-md-8 offset-md-1">
+ <h2>Book Detail</h2>
+  <table class="table table-hover table-inverse">
+
+        
+   <tbody>
+    <tr>
+     <td><%= image_tag @user.get_profile_image(100,100) %><br>
+     <%= link_to @user.name, user_path(@user) %></td>
+     <td><%= link_to @book.title, book_path %></td>
+     <td><%= @book.body %></td>
+     <% if @book.user == current_user %>
+     <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-sm btn-success" %></td>
+     <td><%= link_to "Destroy",book_path(@book),class:"btn btn-sm btn-danger", method: :delete, "data-confirm" => "Are you sure？" %></td>
+     <% end %>
+    </tr>
+   </tbody>
+  
+ </table>
+</div>
+</div>
+</div>

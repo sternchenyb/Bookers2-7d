@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+      <h2>User Info</h2>
+      
+      <div class="error-message">
+       <% if @user.errors.any? %>
+       <%= @user.errors.count %> errors detected.
+       <ul>
+       <% @user.errors.full_messages.each do |message| %>
+       <li><%= message %></li>
+       <% end %>
+       </ul>
+       <% end %>
+      </div>
+      
+      <%= form_with model: @user do |f| %>
+       <p><label for="user_name">Name</label></p>
+       <p><%= f.text_field :name, autofocus: true, id:"user_name" %></p>
+       <p><label for="user_image">Image</label></p>
+       <p><%= f.file_field :profile_image, accept: "image/*" %></p>
+       <p>><label for="user_introduction">Introduction</label></p>
+       <p><%= f.text_area :introduction, id:"user_introduction" %></p>
+       <p><%= f.submit "Update User" ,class:"btn btn-secondary" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
