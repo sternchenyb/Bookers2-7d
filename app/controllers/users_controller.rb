@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
 
-    before_action :correct_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit,:destroy]
+  
+  def correct_user
+    user = User.find(params[:id])
+    if current_user.id != user.id
+      redirect_to user_path(current_user)
+    end
+  end
     
    def new
      @user = User.new
@@ -8,7 +15,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @books = Book.all
+    @books = Book.where(user_id: params[:id])
     @book = Book.new
   end
   
@@ -35,7 +42,11 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
-    @user = current_user
+    if @user = current_user
+      render "edit"
+    else
+      redirect_to user_path(@user)
+    end
   end
   
   def index
@@ -57,12 +68,5 @@ class UsersController < ApplicationController
   
   def user_params
     params.require(:user).permit(:name,:introduction,:profile_image,)
-  end
-  
-  def correct_user
-    @user = User.find(params[:id])
-      if current_user!= @user
-       redirect_to user_path(@user)
-      end
   end
 end
