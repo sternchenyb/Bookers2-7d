@@ -11,38 +11,49 @@
 <div class="container px-5 px-sm-0">
   <div class="row">
     <div class="col-md-3">
-      
      <%= render 'users/user', user: @user %>
      <%= render 'newbook', book: @book_new %>
-     </div>
+    </div>
 
-<div class="col-md-8 offset-md-1">
- <h2>Book detail</h2>
-  <table class="table table-hover table-inverse">
-   <tbody>
-    <tr>
-     <td><%= link_to user_path(@book.user_id) do %>
-      <%= image_tag @book.user.get_profile_image(100,100) %>
-      <% end %><br>
-     <%= link_to @book.user.name, user_path(@book.user_id) %></td>
-     <td><%= link_to @book.title, book_path %></td>
-     <td><%= @book.body %></td>
-     <td class="favorite-btn"><%= render 'favorites/favorite-btn', book: @book %></td>
-     <td>コメント件数：<%= @book.book_comments.count %></td>
-     <% if @book.user == current_user %>
-     <td><%= link_to "Edit", edit_book_path(@book.id), class:"btn btn-sm btn-success" %></td>
-     <td><%= link_to "Destroy",book_path(@book.id),class:"btn btn-sm btn-danger", method: :delete, "data-confirm" => "Are you sure？" %></td>
-     <% end %>
-    </tr>
-   </tbody>
- </table>
+    <div class="col-md-9">
+      <h2>Book detail</h2>
+      <table class="table table-hover table-inverse">
+        <tbody>
+         <tr>
+          <td><%= link_to user_path(@book.user_id) do %>
+              <%= image_tag @book.user.get_profile_image(100,100) %>
+              <% end %><br>
+              <%= link_to @book.user.name, user_path(@book.user_id) %></td>
+          <td><%= link_to @book.title, book_path %></td>
+          <td><%= @book.body %></td>
+          <td class="favorite-btn"><%= render 'favorites/favorite-btn', book: @book %></td>
+          <td>コメント件数：<%= @book.book_comments.count %></td>
+          <td><div id="star-rate<%= @book.id %>"></div>
+            <script>
+               $('#star-rate<%= @book.id %>').raty({
+                 size      : 36,
+                 starOff   : '<%= asset_path('star-off.png') %>',
+                 starOn    : '<%= asset_path('star-on.png') %>',
+                 half      : false,
+                 readOnly: true,
+                 score: <%= @book.star %>,
+               });
+            </script>
+           </td>
+          <% if @book.user == current_user %>
+          <td><%= link_to "Edit", edit_book_path(@book.id), class:"btn btn-sm btn-success" %></td>
+          <td><%= link_to "Destroy",book_path(@book.id),class:"btn btn-sm btn-danger", method: :delete, "data-confirm" => "Are you sure？" %></td>
+          <% end %>
+         </tr>
+        </tbody>
+      </table>
  
- <div id="book_comments">
-  <%= render "book_comments/comments", book: @book, book_comments: @book_comments %>
- </div>
- <div id="book_comment_form">
-  <%= render "book_comments/comment_form", book: @book, book_comment: @book_comment %>
-</div>
-</div>
-</div>
+      <div id="book_comments">
+        <%= render "book_comments/comments", book: @book, book_comments: @book_comments %>
+      </div>
+      <div id="book_comment_form">
+        <%= render "book_comments/comment_form", book: @book, book_comment: @book_comment %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -18,6 +18,18 @@
      <p><%= f.text_field :title %></p>
      <p><label for="book_opinion">Opinion</label></p>
      <p><%= f.text_area :body %></p>
+     <p><div id="star-rate<%= @book.id %>"></div>  
+        <script>
+           $('#star-rate<%= @book.id %>').raty({
+              size      : 36,
+              starOff   : '<%= asset_path('star-off.png') %>',
+              starOn    : '<%= asset_path('star-on.png') %>',
+              half      : false,
+              readOnly: true,
+              score: <%= @book.star %>,
+           });
+        </script>
+     </p>
      <p><%= f.submit "Update Book", class:"btn btn-success" %></p>
     <% end %>
      
